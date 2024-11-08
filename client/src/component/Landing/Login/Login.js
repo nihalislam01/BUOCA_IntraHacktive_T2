@@ -35,10 +35,6 @@ function Login() {
 
     const [isAuthenticated, setAuthenticated] = useState(false);
 
-    useEffect(() => {
-
-    }, []);
-
     const onChangeHandler = e => {
         setFormValues({...formValues, [e.target.name]: e.target.value});
     };
@@ -66,7 +62,7 @@ function Login() {
     }
 
     if (isAuthenticated) {
-        return <Navigate to={"/"}/>;
+        return <Navigate to={"/event"}/>;
     }
 
     return (

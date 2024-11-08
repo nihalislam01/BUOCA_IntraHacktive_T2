@@ -1,6 +1,30 @@
 import styles from './Event.module.scss';
+import axios from 'axios';
+import {useEffect, useState} from "react";
+import {toast} from 'react-hot-toast';
+import { serverLocation } from '../../const/Constants';
+
+const getEventsUrl = `${serverLocation}/api/event/events`;
 
 const Event = () => {
+
+  const [events, setEvents] = useState([]);
+
+  useEffect(()=>{
+
+    axios.get(getEventsUrl, {
+      withCredentials: true
+    }).then((response)=>{
+      setEvents(response.data.events);
+    }).catch((error)=>{
+        try {
+        toast.error(error.response.data.message)
+        } catch {
+          toast.error("something went wrong")
+        }
+    })
+  }, [])
+
   return (
     <div>
       <div className="d-flex justify-content-between align-items-center mb-4">
@@ -22,24 +46,17 @@ const Event = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>IntraHacktive</td>
-              <td>11/11/2024</td>
-              <td>BUCC</td>
-              <td>joesoap@test.com</td>
-              <td>bobsoap@test.com</td>
-              <td>Approved</td>
-              <td><a href="#" className={`${styles.editLink}`}>Edit</a></td>
-            </tr>
-            <tr>
-              <td>Bizz Bee</td>
-              <td>20/11/2024</td>
-              <td>BUBC</td>
-              <td>bobsoap@test.com</td>
-              <td>nul</td>
-              <td>Unassigned</td>
-              <td><a href="#" className={`${styles.editLink}`}>Edit</a></td>
-            </tr>
+            {events.map(event=>(
+              <tr>
+                <td>{event.name}</td>
+                <td>{event.eventDate}</td>
+                <td>Club</td>
+                <td>{event.requestedBy}</td>
+                <td>null</td>
+                <td>{event.status}</td>
+                <td><a href="#" className={`${styles.editLink}`}>Edit</a></td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

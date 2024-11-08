@@ -7,7 +7,7 @@ const eventSchema = new mongoose.Schema({
   status: {type: String,menum: ['Requested', 'Approved', 'Rejected'], default: 'Requested'},
   requestedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   aprrovedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  club: { type: mongoose.Schema.Types.ObjectId, ref: 'Club', required: true }
+  club: { type: mongoose.Schema.Types.ObjectId, ref: 'Club' }
 }, { timestamps: true } );
 
 module.exports = mongoose.model('Event', eventSchema);

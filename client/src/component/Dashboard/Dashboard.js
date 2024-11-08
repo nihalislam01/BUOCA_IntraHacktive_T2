@@ -3,8 +3,36 @@ import Menu, { Page } from "../Menu/Menu";
 import Event from "../Event/Event";
 import Profile from "../Profile/Profile";
 import DataAnalytic from "../DataAnalytic/DataAnalytic";
+import { serverLocation } from "../../const/Constants";
+import { Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const checkUrl = `${serverLocation}/api/user/check`;
 
 function Dashboard(props) {
+
+    const [isAuthenticated, setAuthenticated] = useState(false);
+
+    useEffect(() => {
+        axios.get(checkUrl, {
+                withCredentials: true
+            }).then((response)=>{
+            if (response.data.success) {
+                setAuthenticated(true);
+            } else {
+                setAuthenticated(false);
+            }
+        }).catch((error)=>{
+            setAuthenticated(false);
+            console.log(error);
+        })
+    }, []);
+
+
+    if (!isAuthenticated) {
+        return <Navigate to={"/"}/>;
+    }
     return (
     <>
         <section className={`${styles.container}`}>

@@ -1,10 +1,11 @@
 const Event = require('../models/eventModel');
 const ErrorHandler = require('../utils/errorhandler');
+const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 
 
 exports.createEvent = catchAsyncErrors(async (req, res, next) => {
 
-  const { name, description, eventDate, clubId } = req.body;
+  const { name, description, eventDate } = req.body;
 
   const newEvent = new Event({
     name,
@@ -14,7 +15,7 @@ exports.createEvent = catchAsyncErrors(async (req, res, next) => {
   });
 
   await newEvent.save();
-  res.status(201).json(newEvent);
+  res.status(201).json({success: true, event: newEvent});
   
 });
 
@@ -41,7 +42,7 @@ exports.getEvents = catchAsyncErrors(async (req, res) => {
 
   const events = await Event.find();
 
-  res.status(200).json(events);
+  res.status(200).json({success: true, events: events});
 
 });
 
