@@ -1,5 +1,4 @@
-const Club = require('../models/Club');
-const User = require('../models/User');
+const Club = require('../models/clubModel');
 
 
 exports.createClub = async (req, res) => {

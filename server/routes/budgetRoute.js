@@ -1,18 +1,12 @@
 const express = require('express');
-const {
-  createBudgetRequest,
-  updateBudgetStatus,
-  getBudgetRequests,
-  getBudgetRequest,
-} = require('../controllers/budgetController');
-const authMiddleware = require('../middleware/authMiddleware');
+const {createBudgetRequest, updateBudgetStatus, getBudgetRequests, getBudgetRequest} = require('../controllers/budgetController');
 
 const router = express.Router();
 
 
-router.post('/budgets', authMiddleware, createBudgetRequest); 
-router.put('/budgets/:budgetId', authMiddleware, updateBudgetStatus); 
-router.get('/budgets', authMiddleware, getBudgetRequests); 
-router.get('/budgets/:budgetId', authMiddleware, getBudgetRequest); 
+router.post('/budgets', createBudgetRequest); 
+router.put('/budgets/:budgetId', updateBudgetStatus); 
+router.get('/budgets', getBudgetRequests); 
+router.get('/budgets/:budgetId', getBudgetRequest); 
 
 module.exports = router;

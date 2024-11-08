@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const notificationSchema = new Schema({
     message: { type: String, required: true },
     date: { type: Date, default: Date.now },
     read: { type: Boolean, default: false },
-    recipient: { type: Schema.Types.ObjectId, ref: 'User', required: true }
+    recipient: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 
   });
 

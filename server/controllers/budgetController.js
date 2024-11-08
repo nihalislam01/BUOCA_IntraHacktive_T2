@@ -1,5 +1,5 @@
-const Budget = require('../models/Budget');
-const Club = require('../models/Club');
+const Budget = require('../models/budgetModel');
+const Club = require('../models/clubModel');
 
 
 exports.createBudgetRequest = async (req, res) => {
