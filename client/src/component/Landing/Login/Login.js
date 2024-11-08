@@ -1,13 +1,12 @@
 import styles from "./Login.module.scss";
 import {Navigate} from "react-router-dom";
 import FormInput from "../../../common/components/FormInput/FormInput";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import CommonHelmet from "../../../common/components/Head/CommonHelmet";
-import {serverLocation} from "../../../const/Constants";
 import axios from "axios";
 import {toast} from "react-hot-toast";
 
-const authUrl = `${serverLocation}/api/user/login`;
+const authUrl = `/api/user/login`;
 
 const userInputs = [
     {

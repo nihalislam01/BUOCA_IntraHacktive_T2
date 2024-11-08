@@ -1,0 +1,91 @@
+@import "../../../common/assets/variables";
+
+.table th {
+    color: #666;
+  }
+  .table td, .table th {
+    vertical-align: middle;
+    padding: 10px;
+  }
+
+  .table {
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px -5px rgba(0, 0, 0, 0.413);
+  }
+
+  .tableHead {
+    background-color: rgb(244, 242, 242);
+    border-bottom: 1px solid rgb(216, 216, 216);
+  }
+  
+  .approve {
+    color: $primaryColor;
+    text-decoration: none;
+  }
+
+  .reject {
+    color: #B10C14;
+    text-decoration: none;
+  }
+  
+  .icon-placeholder {
+    font-size: 2rem;
+    margin-right: 15px;
+  }
+  
+  .assign-link {
+    color: #5f80ff;
+    text-decoration: none;
+  }
+  
+  @media only screen {
+      @media (max-width: $sm) {
+          
+      }
+  
+      @media (min-width: $sm) and (max-width: $md) {
+  
+      }
+  
+      @media (max-width: $md) {
+  
+      }
+  
+  
+      @media (min-width: $md) {
+  
+      }
+  
+      @media (min-width: $md) and (max-width: $lg) {
+  
+      }
+  
+      @media (max-width: $lg) {
+  
+      }
+  
+      @media (min-width: $lg) {
+  
+      }
+  
+      @media (min-width: $lg) and (max-width: $xl) {
+  
+      }
+  
+      @media (min-width: $xl) {
+  
+      }
+  
+      @media (min-width: $xxl) {
+  
+      }
+  
+      @media (min-width: $xxl) and (max-width: 1700px) {
+  
+      }
+  
+      @media (min-width: 1700px) {
+  
+      }
+  }  

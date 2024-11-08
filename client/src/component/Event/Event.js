@@ -2,19 +2,52 @@ import styles from './Event.module.scss';
 import axios from 'axios';
 import {useEffect, useState} from "react";
 import {toast} from 'react-hot-toast';
-import { serverLocation } from '../../const/Constants';
+import FormInput from "../../common/components/FormInput/FormInput";
 
-const getEventsUrl = `${serverLocation}/api/event/events`;
+const eventUrl = `/api/event/events`;
+
+const eventInputs = [
+  {
+      id: "nameInput",
+      name: "name",
+      type: "text",
+      label: "Event Name",
+  },
+  {
+    id: "clubInput",
+    name: "club",
+    type: "text",
+    label: "Club"
+  },
+  {
+      id: "descritionInput",
+      name: "description",
+      type: "text",
+      label: "Event Description"
+  },
+  {
+    id: "eventDateInput",
+    name: "eventDate",
+    type: "date",
+    label: "Event Date"
+},
+];
 
 const Event = () => {
 
   const [events, setEvents] = useState([]);
+  const [isCreate, setIsCreate] = useState(false);
+
+  const [formValues, setFormValues] = useState({
+    name: "",
+    club: "",
+    description: "",
+    eventDate: "",
+  });
 
   useEffect(()=>{
 
-    axios.get(getEventsUrl, {
-      withCredentials: true
-    }).then((response)=>{
+    axios.get(eventUrl).then((response)=>{
       setEvents(response.data.events);
     }).catch((error)=>{
         try {
@@ -25,11 +58,43 @@ const Event = () => {
     })
   }, [])
 
+  const onChangeHandler = e => {
+    setFormValues({...formValues, [e.target.name]: e.target.value});
+  };
+
+  const createEvent = () => {
+    setIsCreate(true);
+  }
+
+  const onFormSubmit = e => {
+    e.preventDefault();
+    let hasError = !Object.values(formValues).every(value => value.trim().length !== 0);
+
+    if (hasError) {
+        return;
+    }
+
+    axios.post(eventUrl, {
+      ...formValues
+  }).then((response) => {
+    setIsCreate(false);
+      console.log("we good");
+  }).catch((error) => {
+      try {
+          toast.error(error.response.data.message);
+      } catch {
+          toast.error("Something went wrong");
+      }
+      setIsCreate(false);
+  });
+  }
+
   return (
-    <div>
+    <>
+      {!isCreate && <>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Events</h2>
-        <span className="text-muted">Create a new event</span>
+        <span className="text-muted"><button style={{border: "none", background: "none"}} onClick={createEvent}>Create a new event</button></span>
       </div>
         <hr />
       <div>
@@ -49,18 +114,30 @@ const Event = () => {
             {events.map(event=>(
               <tr>
                 <td>{event.name}</td>
-                <td>{event.eventDate}</td>
-                <td>Club</td>
-                <td>{event.requestedBy}</td>
-                <td>null</td>
+                <td>{event.eventDate.substring(0, 10)}</td>
+                <td>{event.club}</td>
+                <td>{event.requestedBy.name}</td>
+                {event.approvedBy && <td>{event.approvedBy.name}</td>}
+                {!event.approvedBy && <td>null</td>}
                 <td>{event.status}</td>
                 <td><a href="#" className={`${styles.editLink}`}>Edit</a></td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div></>}
+      {isCreate && <>
+      <h2>Create Event</h2>
+      <hr />
+      <div>
+        {eventInputs.map(e => (
+            <FormInput key={e.id} onChange={onChangeHandler} {...e}/>
+        ))}
+
+        <button type="submit" className={`btn btn-primary mt-2`} onClick={onFormSubmit}>Create</button>
       </div>
-    </div>
+      </>}
+    </>
   );
 };
 

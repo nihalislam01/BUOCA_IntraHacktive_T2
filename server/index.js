@@ -8,6 +8,7 @@ const errorMiddleware = require("./middleware/error");
 
 const user = require("./routes/userRoute");
 const event = require("./routes/eventRoute");
+const club = require("./routes/clubRoute");
 const budget = require("./routes/budgetRoute");
 const notification = require("./routes/notificationRoute");
 
@@ -28,6 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/user", user);
 app.use("/api/event", event);
+app.use("/api/club", club);
 app.use("/api/budget", budget);
 app.use("/api/notification", notification);
 

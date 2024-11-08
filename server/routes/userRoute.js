@@ -10,6 +10,6 @@ router.get('/get/all', isAuthenticatedUser, authorizeRoles("admin"), getAll);
 router.patch('/update/password', updatePassword);
 router.post('/login', login);
 router.get('/check', isAuthenticatedUser, check);
-router.post('/logout', logout);
+router.post('/logout', isAuthenticatedUser, logout);
 
 module.exports = router;

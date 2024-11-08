@@ -2,37 +2,28 @@ import styles from "./Dashboard.module.scss";
 import Menu, { Page } from "../Menu/Menu";
 import Event from "../Event/Event";
 import Profile from "../Profile/Profile";
-import DataAnalytic from "../DataAnalytic/DataAnalytic";
-import { serverLocation } from "../../const/Constants";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import EventRequest from "../OCA/EventRequest/EventRequest";
 
-const checkUrl = `${serverLocation}/api/user/check`;
+const checkUrl = `/api/user/check`;
 
 function Dashboard(props) {
 
-    const [isAuthenticated, setAuthenticated] = useState(false);
+    const navigate = useNavigate();
+    const [isOCA, setOCA] = useState(false);
 
     useEffect(() => {
-        axios.get(checkUrl, {
-                withCredentials: true
-            }).then((response)=>{
-            if (response.data.success) {
-                setAuthenticated(true);
-            } else {
-                setAuthenticated(false);
-            }
+        axios.get(checkUrl).then((response)=>{
+            setOCA(response.data.user.role === 'OCA');
+            console.log(response)
         }).catch((error)=>{
-            setAuthenticated(false);
             console.log(error);
+            navigate('/');
         })
-    }, []);
+    }, [navigate]);
 
-
-    if (!isAuthenticated) {
-        return <Navigate to={"/"}/>;
-    }
     return (
     <>
         <section className={`${styles.container}`}>
@@ -42,12 +33,12 @@ function Dashboard(props) {
                         <h4>BUOCA</h4>
                     </div>
                     <div className={`${styles.menu}`}>
-                        <Menu currentPage={props.currentPage}/>
+                        <Menu currentPage={props.currentPage} isOCA={isOCA}/>
                     </div>
                 </nav>
                 <div className={`${styles.pagecontainer}`}>
                     {props.currentPage === Page.event && <Event />}
-                    {props.currentPage === Page.profile && <Profile />}
+                    {props.currentPage === Page.eventRequest && <EventRequest />}
                 </div>
             </div>
         </section>

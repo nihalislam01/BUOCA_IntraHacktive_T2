@@ -17,4 +17,8 @@ export const routes = [
         path: "/profile",
         element: <Dashboard currentPage={Page.profile} />
     },
+    {
+        path: "/event-request",
+        element: <Dashboard currentPage={Page.eventRequest} />
+    },
 ];

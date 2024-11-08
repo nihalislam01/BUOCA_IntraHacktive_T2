@@ -5,10 +5,11 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 
 exports.createEvent = catchAsyncErrors(async (req, res, next) => {
 
-  const { name, description, eventDate } = req.body;
+  const { name, club, description, eventDate } = req.body;
 
   const newEvent = new Event({
     name,
+    club,
     description,
     eventDate,
     requestedBy: req.user.id,
@@ -40,7 +41,7 @@ exports.updateEventStatus = catchAsyncErrors(async (req, res) => {
 
 exports.getEvents = catchAsyncErrors(async (req, res) => {
 
-  const events = await Event.find();
+  const events = await Event.find().populate('requestedBy', 'name').populate('aprrovedBy', 'name');
 
   res.status(200).json({success: true, events: events});
 

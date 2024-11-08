@@ -6,6 +6,11 @@ import 'bootstrap/dist/css/bootstrap.css';
 import {Toaster} from "react-hot-toast";
 
 import './common/assets/common.scss';
+import axios from 'axios';
+import { serverLocation } from './const/Constants';
+
+axios.defaults.baseURL = serverLocation;
+axios.defaults.withCredentials = true;
 
 const router = createBrowserRouter(routes);
 

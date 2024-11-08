@@ -8,7 +8,7 @@ const clubSchema = new mongoose.Schema({
     enum: ['Sports', 'Academic', 'Cultural', 'Technology', 'Social', 'Other'],
     required: true,
   },
-  members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }],
+  members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   contactEmail: {type: String, required: true, trim: true},
   contactPhone: {type: String, trim: true}
 }, { timestamps: true });
