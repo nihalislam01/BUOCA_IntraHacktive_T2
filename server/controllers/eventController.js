@@ -1,63 +1,47 @@
 const Event = require('../models/eventModel');
+const ErrorHandler = require('../utils/errorhandler');
 
 
-exports.createEvent = async (req, res) => {
-  try {
-    const { name, description, eventDate } = req.body;
-    if (req.user.role !== 'Organizer') {
-      return res.status(403).json({ message: 'Access denied' });
-    }
+exports.createEvent = catchAsyncErrors(async (req, res, next) => {
 
-    const newEvent = new Event({
-      name,
-      description,
-      eventDate,
-      requestedBy: req.user._id,
-    });
+  const { name, description, eventDate, clubId } = req.body;
 
-    await newEvent.save();
-    res.status(201).json(newEvent);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+  const newEvent = new Event({
+    name,
+    description,
+    eventDate,
+    requestedBy: req.user.id,
+  });
+
+  await newEvent.save();
+  res.status(201).json(newEvent);
+  
+});
 
 
-exports.updateEventStatus = async (req, res) => {
-  try {
-    const { eventId } = req.params;
-    const { status } = req.body;
+exports.updateEventStatus = catchAsyncErrors(async (req, res) => {
 
-    if (req.user.role !== 'OCA') {
-      return res.status(403).json({ message: 'Access denied' });
-    }
+    const { eventId, status } = req.body;
 
     const event = await Event.findById(eventId);
     if (!event) {
-      return res.status(404).json({ message: 'Event not found' });
+      return next(new ErrorHandler('Event not found', 404));
     }
 
     event.status = status;
-    event.approvedBy = req.user._id;
+    event.approvedBy = req.user.id;
     await event.save();
 
-    res.status(200).json({ message: `Event ${status}`, event });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+    res.status(200).json({ success: true, message: `Event ${status}`, event });
+
+});
 
 
-exports.getEvents = async (req, res) => {
-  try {
-    let events;
-    if (req.user.role === 'OCA') {
-      events = await Event.find().populate('requestedBy', 'username');
-    } else {
-      events = await Event.find({ requestedBy: req.user._id });
-    }
-    res.status(200).json(events);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+exports.getEvents = catchAsyncErrors(async (req, res) => {
+
+  const events = await Event.find();
+
+  res.status(200).json(events);
+
+});
+
