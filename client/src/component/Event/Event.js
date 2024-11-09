@@ -116,9 +116,9 @@ const Event = () => {
                 <td>{event.name}</td>
                 <td>{event.eventDate.substring(0, 10)}</td>
                 <td>{event.club}</td>
-                <td>{event.requestedBy.name}</td>
-                {event.approvedBy && <td>{event.approvedBy.name}</td>}
-                {!event.approvedBy && <td>null</td>}
+                <td>{event.requestedBy.email}</td>
+                {event.aprrovedBy && <td>{event.aprrovedBy.email}</td>}
+                {!event.aprrovedBy && <td>null</td>}
                 <td>{event.status}</td>
                 <td><a href="#" className={`${styles.editLink}`}>Edit</a></td>
               </tr>

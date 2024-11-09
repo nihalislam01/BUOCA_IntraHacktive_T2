@@ -22,6 +22,18 @@ function EventRequest()  {
         })
       }, [])
 
+      const updateStatus = (eventId, status) => {
+        axios.put(eventUrl, {eventId, status})
+        .then(response=>toast.success(response.data.message))
+        .catch(error=>{
+          try {
+            toast.error(error.response.data.message);
+          } catch {
+            toast.error("Something went wrong");
+          }
+        })
+      }
+
     return (
     <>
         <h2>Event Requests</h2>
@@ -46,12 +58,12 @@ function EventRequest()  {
                 <td>{event.name}</td>
                 <td>{event.eventDate.substring(0, 10)}</td>
                 <td>{event.club}</td>
-                <td>{event.requestedBy.name}</td>
-                {event.approvedBy && <td>{event.approvedBy.name}</td>}
+                <td>{event.requestedBy.email}</td>
+                {event.approvedBy && <td>{event.approvedBy.email}</td>}
                 {!event.approvedBy && <td>null</td>}
                 <td>{event.status}</td>
-                <td><a href="#" className={`${styles.approve}`}>Approve</a></td>
-                <td><a href="#" className={`${styles.reject}`}>Reject</a></td>
+                <td><button onClick={() => updateStatus(event._id, 'Approved')} className={`${styles.approve}`}>Approve</button></td>
+                <td><button onClick={() => updateStatus(event._id, 'Rejected')} className={`${styles.reject}`}>Reject</button></td>
               </tr>
             ))}
           </tbody>

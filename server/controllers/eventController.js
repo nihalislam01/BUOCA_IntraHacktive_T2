@@ -21,7 +21,7 @@ exports.createEvent = catchAsyncErrors(async (req, res, next) => {
 });
 
 
-exports.updateEventStatus = catchAsyncErrors(async (req, res) => {
+exports.updateEventStatus = catchAsyncErrors(async (req, res, next) => {
 
     const { eventId, status } = req.body;
 
@@ -31,7 +31,7 @@ exports.updateEventStatus = catchAsyncErrors(async (req, res) => {
     }
 
     event.status = status;
-    event.approvedBy = req.user.id;
+    event.aprrovedBy = req.user.id;
     await event.save();
 
     res.status(200).json({ success: true, message: `Event ${status}`, event });
@@ -39,9 +39,9 @@ exports.updateEventStatus = catchAsyncErrors(async (req, res) => {
 });
 
 
-exports.getEvents = catchAsyncErrors(async (req, res) => {
+exports.getEvents = catchAsyncErrors(async (req, res, next) => {
 
-  const events = await Event.find().populate('requestedBy', 'name').populate('aprrovedBy', 'name');
+  const events = await Event.find().populate('requestedBy', 'email').populate('aprrovedBy', 'email');
 
   res.status(200).json({success: true, events: events});
 

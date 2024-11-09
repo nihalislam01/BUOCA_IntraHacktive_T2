@@ -2,87 +2,56 @@ const Budget = require('../models/budgetModel');
 const Club = require('../models/clubModel');
 
 
-exports.createBudgetRequest = async (req, res) => {
-  try {
-    if (req.user.role !== 'Organizer') {
-      return res.status(403).json({ message: 'Access denied' });
-    }
+exports.createBudgetRequest = catchAsyncErrors(async (req, res, next) => {
 
-    const { clubId, amountRequested } = req.body;
-
-    const club = await Club.findById(clubId);
-    if (!club) {
-      return res.status(404).json({ message: 'Club not found' });
-    }
+    const { club, amountRequested, purpose } = req.body;
 
     const newBudget = new Budget({
-      club: clubId,
+      club: club,
       amountRequested,
-      requestedBy: req.user._id,
+      purpose,
+      requestedBy: req.user.id,
     });
 
     await newBudget.save();
-    res.status(201).json(newBudget);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+    res.status(201).json({success: true, newBudget});
 
-exports.updateBudgetStatus = async (req, res) => {
-  try {
-    if (req.user.role !== 'OCA') {
-      return res.status(403).json({ message: 'Access denied' });
-    }
+});
 
-    const { budgetId } = req.params;
-    const { status, comments } = req.body;
+exports.updateBudgetStatus = catchAsyncErrors(async (req, res, next) => {
 
-    if (!['Approved', 'Denied'].includes(status)) {
-      return res.status(400).json({ message: 'Invalid status' });
-    }
+    const { budgetId, status } = req.body;
 
     const budget = await Budget.findById(budgetId);
+
     if (!budget) {
-      return res.status(404).json({ message: 'Budget request not found' });
+      return next(new ErrorHandler('Budget request not found', 404));
     }
 
     budget.status = status;
-    budget.comments = comments || '';
     await budget.save();
 
-    res.status(200).json({ message: 'Budget status updated', budget });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+    res.status(200).json({ success: true, message: 'Budget status updated', budget });
+});
 
-exports.getBudgetRequests = async (req, res) => {
-  try {
-    const filter = req.user.role === 'Organizer' ? { requestedBy: req.user._id } : {};
-    const budgets = await Budget.find(filter).populate('club', 'name').populate('requestedBy', 'username role');
+exports.getBudgetRequests = catchAsyncErrors(async (req, res, next) => {
+
+    const budgets = await Budget.find().populate('requestedBy', 'email').appprovedBy('approvedBy', 'email');
     
     res.status(200).json(budgets);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+
+});
 
 
-exports.getBudgetRequest = async (req, res) => {
-  try {
+exports.getBudgetRequest = catchAsyncErrors(async (req, res, next) => {
+
     const { budgetId } = req.params;
-    const budget = await Budget.findById(budgetId).populate('club', 'name').populate('requestedBy', 'username role');
+    const budget = await Budget.findById(budgetId).populate('requestedBy', 'email').populate('approvedBy', 'email');
 
     if (!budget) {
-      return res.status(404).json({ message: 'Budget request not found' });
+      return next(new ErrorHandler('Budget request not found', 404));
     }
 
-    if (req.user.role === 'Organizer' && budget.requestedBy._id.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: 'Access denied' });
-    }
+    res.status(200).json({success: true, budget});
 
-    res.status(200).json(budget);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+});
