@@ -1,11 +1,11 @@
 import styles from "./Dashboard.module.scss";
 import Menu, { Page } from "../Menu/Menu";
 import Event from "../Event/Event";
-import Profile from "../Profile/Profile";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import EventRequest from "../OCA/EventRequest/EventRequest";
+import Budget from "../Budget/Budget";
 
 const checkUrl = `/api/user/check`;
 
@@ -17,7 +17,6 @@ function Dashboard(props) {
     useEffect(() => {
         axios.get(checkUrl).then((response)=>{
             setOCA(response.data.user.role === 'OCA');
-            console.log(response)
         }).catch((error)=>{
             console.log(error);
             navigate('/');
@@ -39,6 +38,7 @@ function Dashboard(props) {
                 <div className={`${styles.pagecontainer}`}>
                     {props.currentPage === Page.event && <Event />}
                     {props.currentPage === Page.eventRequest && <EventRequest />}
+                    {props.currentPage === Page.budget && <Budget />}
                 </div>
             </div>
         </section>

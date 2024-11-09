@@ -21,4 +21,8 @@ export const routes = [
         path: "/event-request",
         element: <Dashboard currentPage={Page.eventRequest} />
     },
+    {
+        path: "/budget",
+        element: <Dashboard currentPage={Page.budget} />
+    },
 ];

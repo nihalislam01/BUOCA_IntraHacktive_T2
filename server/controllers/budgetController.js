@@ -1,5 +1,6 @@
 const Budget = require('../models/budgetModel');
-const Club = require('../models/clubModel');
+const ErrorHandler = require("../utils/errorhandler");
+const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 
 
 exports.createBudgetRequest = catchAsyncErrors(async (req, res, next) => {
@@ -36,9 +37,9 @@ exports.updateBudgetStatus = catchAsyncErrors(async (req, res, next) => {
 
 exports.getBudgetRequests = catchAsyncErrors(async (req, res, next) => {
 
-    const budgets = await Budget.find().populate('requestedBy', 'email').appprovedBy('approvedBy', 'email');
+    const budgets = await Budget.find().populate('requestedBy', 'email').populate('approvedBy', 'email');
     
-    res.status(200).json(budgets);
+    res.status(200).json({success: true, budgets});
 
 });
 
