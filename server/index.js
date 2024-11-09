@@ -11,6 +11,8 @@ const event = require("./routes/eventRoute");
 const club = require("./routes/clubRoute");
 const budget = require("./routes/budgetRoute");
 const notification = require("./routes/notificationRoute");
+const room = require("./routes/roomRoute");
+const schedule = require("./routes/scheduleRoute");
 
 
 if (process.env.NODE_ENV !== "PRODUCTION") {
@@ -32,7 +34,8 @@ app.use("/api/event", event);
 app.use("/api/club", club);
 app.use("/api/budget", budget);
 app.use("/api/notification", notification);
-
+app.use("/api/room", room);
+app.use("/api/schedule", schedule);
 app.use(errorMiddleware);
 
 module.exports = app;
