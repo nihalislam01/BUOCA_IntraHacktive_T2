@@ -37,6 +37,10 @@ function Menu(props) {
                 <Link to="/budget-request">Budget Request</Link>
             </li>}
 
+            <li className={`mx-2 ${props.currentPage === Page.room && (`selected`)}`}>
+                <Link to="/room">Check Room</Link>
+            </li>
+
             <li className={`mx-2 position-relative`}>
                 <Link to="#" onClick={doSignOut}>Sign Out</Link>
             </li>
@@ -48,7 +52,8 @@ export const Page = {
     event: 1,
     eventRequest: 2,
     budget: 3,
-    budgetRequest: 4
+    budgetRequest: 4,
+    room: 5
 };
 
 export default Menu;

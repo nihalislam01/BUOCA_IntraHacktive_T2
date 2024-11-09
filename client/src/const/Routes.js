@@ -29,4 +29,8 @@ export const routes = [
         path: "/budget-request",
         element: <Dashboard currentPage={Page.budgetRequest} />
     },
+    {
+        path: "/room",
+        element: <Dashboard currentPage={Page.room} />
+    },
 ];

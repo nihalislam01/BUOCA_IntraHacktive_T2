@@ -7,6 +7,7 @@ import axios from "axios";
 import EventRequest from "../OCA/EventRequest/EventRequest";
 import Budget from "../Budget/Budget";
 import BudgetRequest from "../OCA/BudgetRerquest/BudgetRequest";
+import Room from "../Room/Room";
 
 const checkUrl = `/api/user/check`;
 
@@ -41,6 +42,7 @@ function Dashboard(props) {
                     {props.currentPage === Page.eventRequest && <EventRequest />}
                     {props.currentPage === Page.budget && <Budget />}
                     {props.currentPage === Page.budgetRequest && <BudgetRequest />}
+                    {props.currentPage === Page.room && <Room />}
                 </div>
             </div>
         </section>

@@ -2,37 +2,23 @@
 
 .table th {
     color: #666;
-  }
-  .table td, .table th {
+}
+
+.table td, .table th {
     vertical-align: middle;
     padding: 10px;
-  }
+}
 
-  .table {
+.table {
     width: 100%;
     border-radius: 5px;
     box-shadow: 2px 2px 10px -5px rgba(0, 0, 0, 0.413);
-  }
+}
 
-  .tableHead {
+.tableHead {
     background-color: rgb(244, 242, 242);
     border-bottom: 1px solid rgb(216, 216, 216);
-  }
-  
-  .editLink {
-    color: $primaryColor;
-    text-decoration: none;
-  }
-  
-  .iconPlaceholder {
-    font-size: 2rem;
-    margin-right: 15px;
-  }
-  
-  .assign-link {
-    color: #5f80ff;
-    text-decoration: none;
-  }
+}
   
   @media only screen {
       @media (max-width: $sm) {

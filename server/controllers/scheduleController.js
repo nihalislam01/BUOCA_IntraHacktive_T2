@@ -4,7 +4,7 @@ const Room = require('../models/roomModel');
 const ErrorHandler = require("../utils/errorhandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 
-exports.getScheduleForDate = catchAsyncErrors(async (req, res) => {
+exports.getScheduleForDate = catchAsyncErrors(async (req, res, next) => {
 
         const { date, time } = req.body;
 
@@ -35,13 +35,14 @@ exports.getScheduleForDate = catchAsyncErrors(async (req, res) => {
                 schedules: "00000000",
                 room: room._id
             }));
-            schedules = await Schedule.insertMany(scheduleDocs).populate("room");
+            schedules = await Schedule.insertMany(scheduleDocs);
+            schedules = await Schedule.find({ _id: { $in: schedules.map(s => s._id) } }).populate('room');
         }
 
         const availableRooms = schedules.filter(schedule => 
             schedule.schedules[time] === '0'
         ).map(schedule => schedule.room);
 
-        res.status(200).json({ success: true, availableRooms });
+        res.status(200).json({ success: true, date: date, time: time, rooms: availableRooms });
 
 });
