@@ -1,6 +1,6 @@
 import styles from './Room.module.scss';
 
-function RoomTable({date, time, rooms}) {
+function RoomTable({date, time, rooms, addRoom}) {
     return (
         <>
             <table className={`${styles.table}`}>
@@ -9,9 +9,9 @@ function RoomTable({date, time, rooms}) {
                 <th>Date</th>
                 <th>Time</th>
                 <th>Floor</th>
-                <th>Room No</th>
+                <th>Room</th>
                 <th>Capacity</th>
-                <th>Add to queue</th>
+                <th>Add</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,7 +22,7 @@ function RoomTable({date, time, rooms}) {
                     <td>{room.floor}</td>
                     <td>{room.name}</td>
                     <td>{room.capacity}</td>
-                    <td><button>Add</button></td>
+                    <td><button onClick={()=>addRoom(room._id, date, time, room.name)}>Add</button></td>
                 </tr>
                 ))}
             </tbody>

@@ -2,14 +2,22 @@ import RoomTable from "./RoomTabel";
 import {useState} from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import RoomStage from "./RoomStage";
+import BookRequestPopup from "./BookRequestPopup";
 
-const roomUrl = '/api/schedule/schedules'
+const roomUrl = '/api/schedule/schedules';
+const requestBookUrl = '/api/book/book-room';
 
 function Room() { 
 
     const [rooms, setRooms] = useState([]);
     const [incomingDate, setincomingDate] = useState('');
     const [incomingTime, setincomingTime] = useState('');
+    const [selectedRooms, setSelectedRooms] = useState([]);
+    const [toAdd, setAdd] = useState([]);
+
+    const [ispopup, setpopup] = useState(false);
+    const [purpose, setpurpose] = useState('');
 
     const [date, setDate] = useState('');
     const [time, setTime] = useState(-1);
@@ -60,24 +68,81 @@ function Room() {
         });
     }
 
+    const addRoom = (id, date, time, name) => {
+        const timeSlotIndex = times[time]; 
+        setSelectedRooms((prevRooms) => [...prevRooms, {id, date, time, name}]);
+        setAdd((prevRooms) => {
+
+            const existingRoom = prevRooms.find(
+                (room) => room.date === date && room.room === id
+            );
+    
+            if (existingRoom) {
+                return prevRooms.map((room) =>
+                    room.date === date && room.room === id
+                        ? { ...room, timeSlotIndices: [...room.timeSlotIndices, timeSlotIndex] }
+                        : room
+                );
+            } else {
+                return [
+                    ...prevRooms,
+                    { date, room: id, timeSlotIndices: [timeSlotIndex] }
+                ];
+            }
+        });
+    }
+
+    const openpopup = () => {
+        setpopup(true);
+    }
+
+    const requestBook = () => {
+        axios.post(requestBookUrl,{purpose: purpose, rooms: toAdd})
+        .then(response=>toast.success("Room Book Requested"))
+        .catch(error=>{
+            try {
+                toast.error(error.response.data.message)
+            } catch {
+                toast.error("Something went wrong")
+            }
+        })
+        setpopup(false);
+    }
+
     return (
         <>
-            <h2>Available Rooms</h2>
-            <div className="d-flex justify-content-between w-100">
-                <div className="d-flex w-50">
-                    <input type="date" className="form-control mx-2" value={date} name="date" onChange={ondateChange} />
-                    <select value={time} className="form-control mx-2" onChange={handleTimeChange}>
-                    {Object.entries(times).map(([label, value]) => (
-                        <option key={value} value={value}>
-                        {label}
-                        </option>
-                    ))}
-                    </select>
+            <div className="d-flex justify-content-space-between align-items-start mb-4">
+                <div style={{width: "45%"}}>
+                    <h2>Available Rooms</h2>
+                    <div className="d-flex justify-content-between w-100">
+                        <div className="d-flex">
+                            <input type="date" className="form-control mx-2" value={date} name="date" onChange={ondateChange} />
+                            <select value={time} className="form-control mx-2" onChange={handleTimeChange}>
+                            {Object.entries(times).map(([label, value]) => (
+                                <option key={value} value={value}>
+                                {label}
+                                </option>
+                            ))}
+                            </select>
+                        </div>
+                        <button className="btn btn-primary" onClick={onSubmit}>Search</button>
+                    </div>
+                    <hr />
+                    <RoomTable date={incomingDate} time={incomingTime} rooms={rooms} addRoom={addRoom}/>
                 </div>
-                <button className="btn btn-primary" onClick={onSubmit}>Search</button>
+                <div style={{width: "10%"}}>
+
+                </div>
+                <div style={{width: "45%"}}>
+                    <h2>Selected Rooms</h2>
+                    <div className="d-flex justify-content-end w-100">
+                        <button className="btn btn-primary" onClick={openpopup}>Request</button>
+                    </div>
+                    <hr />
+                    <RoomStage rooms={selectedRooms}/>
+                </div>
             </div>
-            <hr />
-            <RoomTable date={incomingDate} time={incomingTime} rooms={rooms} />
+            {ispopup && <BookRequestPopup setpopup={setpopup} purpose={purpose} setPurpose={setpurpose} requestBook={requestBook}/>}
         </>
     )
 }
