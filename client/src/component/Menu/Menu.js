@@ -33,6 +33,10 @@ function Menu(props) {
                 <Link to="/budget">Budget</Link>
             </li>
 
+            {props.isOCA && <li className={`mx-2 ${props.currentPage === Page.budgetRequest && (`selected`)}`}>
+                <Link to="/budget-request">Budget Request</Link>
+            </li>}
+
             <li className={`mx-2 position-relative`}>
                 <Link to="#" onClick={doSignOut}>Sign Out</Link>
             </li>
@@ -43,7 +47,8 @@ function Menu(props) {
 export const Page = {
     event: 1,
     eventRequest: 2,
-    budget: 3
+    budget: 3,
+    budgetRequest: 4
 };
 
 export default Menu;
