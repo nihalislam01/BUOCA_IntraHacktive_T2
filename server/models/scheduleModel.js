@@ -6,4 +6,6 @@ const scheduleSchema = new mongoose.Schema({
     room: {type: mongoose.Schema.Types.ObjectId,ref: 'Room', require: true}
 });
 
+scheduleSchema.index({ date: 1, room: 1 }, { unique: true });
+
 module.exports = mongoose.model('Schedule', scheduleSchema);
