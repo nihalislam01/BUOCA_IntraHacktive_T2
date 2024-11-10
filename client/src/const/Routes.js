@@ -10,6 +10,10 @@ export const routes = [
         children: landingRoutes,
     },
     {
+        path: "/dashboard",
+        element: <Dashboard currentPage={Page.dashboard} />
+    },
+    {
         path: "/event",
         element: <Dashboard currentPage={Page.event} />
     },

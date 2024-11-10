@@ -21,6 +21,10 @@ function Menu(props) {
 
     return (
         <ul className={`d-flex align-content-start justify-content-start ${styles.menu}`}>
+            <li className={`mx-2 ${props.currentPage === Page.dashboard && (`selected`)}`}>
+                <Link to="/dashboard">Dashboard</Link>
+            </li>
+
             {!props.isOCA && <li className={`mx-2 ${props.currentPage === Page.event && (`selected`)}`}>
                 <Link to="/event">Events</Link>
             </li>}
@@ -63,7 +67,8 @@ export const Page = {
     budgetRequest: 4,
     room: 5,
     availableRoom: 6,
-    roomRequest: 7
+    roomRequest: 7,
+    dashboard: 8
 };
 
 export default Menu;

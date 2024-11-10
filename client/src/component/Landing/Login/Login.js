@@ -64,11 +64,7 @@ function Login() {
     }
 
     if (isAuthenticated) {
-        if (isOCA) {
-            return <Navigate to={"/event-request"}/>;
-        } else {
-            return <Navigate to={"/event"}/>;
-        }
+        return <Navigate to={"/dashboard"}/>;
     }
 
     return (
