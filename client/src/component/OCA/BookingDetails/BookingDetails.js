@@ -17,8 +17,6 @@ function BookingDetails({request}) {
         <>
             <h2>Booking Details</h2>
             <hr />
-            <h4>ID</h4>
-            <p>{request._id}</p>
             <h4>Purpose</h4>
             <p>{request.purpose}</p>
             <h4>Requested By</h4>

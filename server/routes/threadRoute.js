@@ -1,0 +1,9 @@
+const express = require('express');
+const { getMessage } = require('../controllers/threadController');
+const { isAuthenticatedUser } = require("../middleware/auth");
+
+const router = express.Router();
+
+router.get('/thread/:referenceId', isAuthenticatedUser, getMessage);
+
+module.exports = router;
