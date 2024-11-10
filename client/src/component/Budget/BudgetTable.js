@@ -1,6 +1,6 @@
 import styles from './Budget.module.scss';
 
-function BudgetTable({setForm, budgets, setpopup, setpurpose}) {
+function BudgetTable({setForm, budgets, setpopup, setpurpose, openThread}) {
     
     const handleOpenPopup = (purpose) => {
       setpurpose(purpose);
@@ -27,6 +27,7 @@ function BudgetTable({setForm, budgets, setpopup, setpurpose}) {
                 <th>Requested By</th>
                 <th>Approved By</th>
                 <th>Status</th>
+                <th>Chat</th>
               </tr>
             </thead>
             <tbody>
@@ -38,6 +39,7 @@ function BudgetTable({setForm, budgets, setpopup, setpurpose}) {
                   {budget.approvedBy && <td>{budget.approvedBy.email}</td>}
                   {!budget.approvedBy && <td>null</td>}
                   <td>{budget.status}</td>
+                  <td><button onClick={(e) => { e.stopPropagation(); openThread(budget._id);}}>Thread</button></td>
                 </tr>
               ))}
             </tbody>

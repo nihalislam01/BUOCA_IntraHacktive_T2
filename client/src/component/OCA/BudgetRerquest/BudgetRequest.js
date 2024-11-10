@@ -1,12 +1,16 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import Chat from '../../Chat/Chat';
 import styles from './BudgetRequest.module.scss';
 
 const budgetUrl = `/api/budget/budgets`;
 
 function BudgetRequest() {
     const [budgets, setBudgets] = useState([]);
+
+    const [isThread, setThread] = useState(false);
+    const [referenceId, setReferenceId] = useState(0);
 
     useEffect(()=>{
 
@@ -22,6 +26,11 @@ function BudgetRequest() {
         })
       }, [])
 
+      const openThread=(id)=>{
+        setReferenceId(id);
+        setThread(true);
+      }
+
       const updateStatus = (budgetId, status) => {
         axios.put(budgetUrl, {budgetId, status})
         .then(response=>toast.success(response.data.message))
@@ -35,7 +44,7 @@ function BudgetRequest() {
       }
     return (
         <>
-        <h2>Budget Requests</h2>
+        {!isThread && <><h2>Budget Requests</h2>
         <hr />
       <div>
       <table className={`${styles.table}`}>
@@ -46,6 +55,7 @@ function BudgetRequest() {
                 <th>Requested By</th>
                 <th>Approved By</th>
                 <th>Status</th>
+                <th>Chat</th>
                 <th>Approve</th>
                 <th>Deny</th>
               </tr>
@@ -59,13 +69,15 @@ function BudgetRequest() {
                   {budget.approvedBy && <td>{budget.approvedBy.email}</td>}
                   {!budget.approvedBy && <td>null</td>}
                   <td>{budget.status}</td>
-                  <td><button onClick={() => updateStatus(budget._id, 'Approved')} className={`${styles.approve}`}>Approve</button></td>
-                <td><button onClick={() => updateStatus(budget._id, 'Denied')} className={`${styles.reject}`}>Deny</button></td>
+                  <td><button onClick={(e) => { e.stopPropagation(); openThread(budget._id);}}>Thread</button></td>
+                  <td><button onClick={(e) => { e.stopPropagation(); updateStatus(budget._id, 'Approved')}} className={`${styles.approve}`}>Approve</button></td>
+                <td><button onClick={(e) => { e.stopPropagation(); updateStatus(budget._id, 'Denied')}} className={`${styles.reject}`}>Deny</button></td>
                 </tr>
               ))}
             </tbody>
           </table>
-      </div>
+      </div></>}
+      {isThread && <Chat referenceId={referenceId} />}
         </>
     )
 }

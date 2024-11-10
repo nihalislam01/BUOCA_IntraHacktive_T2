@@ -49,6 +49,7 @@ function Login() {
         axios.post(authUrl, {
             ...formValues
         }).then((response) => {
+            localStorage.setItem("userId", response.data.user._id);
             setAuthenticated(true);
             console.log("we good");
         }).catch((error) => {

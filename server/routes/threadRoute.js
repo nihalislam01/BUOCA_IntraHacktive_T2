@@ -4,6 +4,6 @@ const { isAuthenticatedUser } = require("../middleware/auth");
 
 const router = express.Router();
 
-router.get('/thread/:referenceId', isAuthenticatedUser, getMessage);
+router.get('/:referenceId/:type', isAuthenticatedUser, getMessage);
 
 module.exports = router;

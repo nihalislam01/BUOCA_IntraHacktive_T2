@@ -37,8 +37,8 @@ function Menu(props) {
                 <Link to="/budget-request">Budget Request</Link>
             </li>}
 
-            <li className={`mx-2 ${props.currentPage === Page.room && (`selected`)}`}>
-                <Link to="/room">Room</Link>
+            <li className={`mx-2 ${props.currentPage === Page.availableRoom && (`selected`)}`}>
+                <Link to="/available-room">Available Room</Link>
             </li>
 
             {props.isOCA && <li className={`mx-2 ${props.currentPage === Page.roomRequest && (`selected`)}`}>
@@ -58,7 +58,8 @@ export const Page = {
     budget: 3,
     budgetRequest: 4,
     room: 5,
-    roomRequest: 6
+    availableRoom: 6,
+    roomRequest: 7
 };
 
 export default Menu;

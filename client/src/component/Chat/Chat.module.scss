@@ -1,0 +1,67 @@
+@import "../../common/assets/variables";
+
+.messageBox {
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 10px;
+}
+  
+.myMessage {
+    align-self: flex-end;
+    background-color: #9a99f2;
+}
+
+.otherUserMessage {
+    align-self: flex-start; 
+    background-color: #b3beff;
+}
+  @media only screen {
+      @media (max-width: $sm) {
+          
+      }
+  
+      @media (min-width: $sm) and (max-width: $md) {
+  
+      }
+  
+      @media (max-width: $md) {
+  
+      }
+  
+  
+      @media (min-width: $md) {
+  
+      }
+  
+      @media (min-width: $md) and (max-width: $lg) {
+  
+      }
+  
+      @media (max-width: $lg) {
+  
+      }
+  
+      @media (min-width: $lg) {
+  
+      }
+  
+      @media (min-width: $lg) and (max-width: $xl) {
+  
+      }
+  
+      @media (min-width: $xl) {
+  
+      }
+  
+      @media (min-width: $xxl) {
+  
+      }
+  
+      @media (min-width: $xxl) and (max-width: 1700px) {
+  
+      }
+  
+      @media (min-width: 1700px) {
+  
+      }
+  }  

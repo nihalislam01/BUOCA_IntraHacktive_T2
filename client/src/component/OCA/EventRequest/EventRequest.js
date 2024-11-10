@@ -2,11 +2,15 @@ import styles from './Event.module.scss';
 import axios from 'axios';
 import {useEffect, useState} from "react";
 import {toast} from 'react-hot-toast';
+import Chat from '../../Chat/Chat';
 
 const eventUrl = `/api/event/events`;
 
 function EventRequest()  {
     const [events, setEvents] = useState([]);
+
+    const [isThread, setThread] = useState(false);
+    const [referenceId, setReferenceId] = useState(0);
 
     useEffect(()=>{
 
@@ -34,9 +38,14 @@ function EventRequest()  {
         })
       }
 
+      const openThread=(id)=>{
+        setReferenceId(id);
+        setThread(true);
+      }
+
     return (
     <>
-        <h2>Event Requests</h2>
+        {!isThread && <><h2>Event Requests</h2>
         <hr />
       <div>
         <table className={`${styles.table}`}>
@@ -48,6 +57,7 @@ function EventRequest()  {
               <th>Requested By</th>
               <th>Approved By</th>
               <th>Status</th>
+              <th>Chat</th>
               <th>Approve</th>
               <th>Reject</th>
             </tr>
@@ -62,13 +72,15 @@ function EventRequest()  {
                 {event.approvedBy && <td>{event.approvedBy.email}</td>}
                 {!event.approvedBy && <td>null</td>}
                 <td>{event.status}</td>
-                <td><button onClick={() => updateStatus(event._id, 'Approved')} className={`${styles.approve}`}>Approve</button></td>
-                <td><button onClick={() => updateStatus(event._id, 'Rejected')} className={`${styles.reject}`}>Reject</button></td>
+                <td><button onClick={(e) => { e.stopPropagation(); openThread(event._id);}}>Thread</button></td>
+                <td><button onClick={(e) => { e.stopPropagation(); updateStatus(event._id, 'Approved');}} className={`${styles.approve}`}>Approve</button></td>
+                <td><button onClick={(e) => { e.stopPropagation(); updateStatus(event._id, 'Rejected');}} className={`${styles.reject}`}>Reject</button></td>
               </tr>
             ))}
           </tbody>
         </table>
-      </div>
+      </div></>}
+      {isThread && <Chat referenceId={referenceId} />}
       </>
     )
 }

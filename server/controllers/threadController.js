@@ -6,9 +6,12 @@ const Message = require("../models/messageModel");
 exports.getMessage = catchAsyncErrors(async (req, res) => {
 
     const referenceId = req.params.referenceId;
-    let thread = await Thread.find({ referenceId });
+    const type = req.params.type;
+
+    let thread = await Thread.findOne({ referenceId });
 
     if (!thread) {
+
         thread = await Thread.create({ type, referenceId });
         thread.save();
     }

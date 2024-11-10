@@ -38,7 +38,7 @@ const Event = () => {
 
   return (
     <>
-      {!isCreate && <EventTable events={events} setIsCreate={setIsCreate} setpopup={setpopup} setdescription={setdescription}/>}
+      {!isCreate && !isThread && <EventTable events={events} setIsCreate={setIsCreate} setpopup={setpopup} setdescription={setdescription} openThread={openThread}/>}
       {isCreate && <EventForm setIsCreate={setIsCreate} />}
       {ispopup && <DetailsPopup title={'Event Description'} content={description} setpopup={setpopup}/>}
       {isThread && <Chat referenceId={referenceId} />}

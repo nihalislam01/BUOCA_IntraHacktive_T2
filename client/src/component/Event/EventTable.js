@@ -41,7 +41,7 @@ function EventTable({events, setIsCreate, setpopup, setdescription, openThread})
                 {event.aprrovedBy && <td>{event.aprrovedBy.email}</td>}
                 {!event.aprrovedBy && <td>null</td>}
                 <td>{event.status}</td>
-                <td><button onClick={()=>openThread(event._id)}>Thread</button></td>
+                <td><button onClick={(e) => { e.stopPropagation(); openThread(event._id);}}>Thread</button></td>
               </tr>
             ))}
           </tbody>

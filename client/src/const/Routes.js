@@ -30,8 +30,12 @@ export const routes = [
         element: <Dashboard currentPage={Page.budgetRequest} />
     },
     {
-        path: "/room",
+        path: "/oom",
         element: <Dashboard currentPage={Page.room} />
+    },
+    {
+        path: "/available-room",
+        element: <Dashboard currentPage={Page.availableRoom} />
     },
     {
         path: "/room-request",

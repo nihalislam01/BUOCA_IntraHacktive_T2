@@ -27,14 +27,3 @@ exports.authorizeRoles = (...roles) => {
     
   };
 };
-
-exports.decodeToken = async (token) => {
-  try {
-    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decodedData.id);
-    return user;
-  } catch (error) {
-    console.error("JWT verification failed:", error);
-    return null;
-  }
-};

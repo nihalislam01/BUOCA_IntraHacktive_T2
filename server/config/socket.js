@@ -1,6 +1,6 @@
 const Message = require("../models/messageModel");
 const ErrorHandler = require("../utils/errorhandler");
-const parseCookies = require("../utils/parseCookie");
+const User = require("../models/userModel");
 
 const initializeSocket = (server) => {
     const io = require("socket.io")(server, {
@@ -13,29 +13,20 @@ const initializeSocket = (server) => {
     io.on("connection", async (socket, next) => {
         console.log("New client connected:", socket.id);
 
-        const cookies = parseCookies(socket.handshake.headers.cookie);
-
-        const token = cookies.token;
-
-        if (!token) {
-            return next(new ErrorHandler("Authentication error: No token provided", 400));
-        }
-        const user = await decodeToken(token);
-
-        if (!user) {
-            socket.disconnect();
-            return next(new ErrorHandler("Unauthorized use", 401));
-        }
-
         socket.on("joinThread", (threadId) => {
             socket.join(threadId);
         });
 
-        socket.on("newMessage", async ({ threadId, text }) => {
+        socket.on("newMessage", async ({ threadId, userId, text }) => {
             try {
-                const message = await Message.create({ threadId, sender: user._id, text });
+                const user = await User.findById(userId);
+                if (!user) {
+                    return next(ErrorHandler("User not found", 404));
+                }
+                const message = await Message.create({ threadId, sender: userId, text });
                 message.save();
-                io.to(threadId).emit("receiveMessage", message);
+                const populatedMessage = await Message.findById(message._id).populate("sender");
+                io.to(threadId).emit("receiveMessage", populatedMessage);
             } catch (error) {
                 console.error("Error saving message:", error);
             }
