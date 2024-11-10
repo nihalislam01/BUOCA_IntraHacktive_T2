@@ -34,6 +34,10 @@ export const routes = [
         element: <Dashboard currentPage={Page.room} />
     },
     {
+        path: "/room",
+        element: <Dashboard currentPage={Page.room} />
+    },
+    {
         path: "/available-room",
         element: <Dashboard currentPage={Page.availableRoom} />
     },

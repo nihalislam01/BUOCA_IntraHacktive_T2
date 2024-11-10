@@ -9,6 +9,7 @@ import Budget from "../Budget/Budget";
 import BudgetRequest from "../OCA/BudgetRerquest/BudgetRequest";
 import Room from "../Room/Room";
 import RoomRequest from "../OCA/RoomRequest/RoomRequest";
+import RequestedRoom from "../RequestedRoom/RequestedRoom";
 
 const checkUrl = `/api/user/check`;
 
@@ -43,7 +44,8 @@ function Dashboard(props) {
                     {props.currentPage === Page.eventRequest && <EventRequest />}
                     {props.currentPage === Page.budget && <Budget />}
                     {props.currentPage === Page.budgetRequest && <BudgetRequest />}
-                    {props.currentPage === Page.room && <Room />}
+                    {props.currentPage === Page.room && <RequestedRoom />}
+                    {props.currentPage === Page.availableRoom && <Room />}
                     {props.currentPage === Page.roomRequest && <RoomRequest />}
                 </div>
             </div>

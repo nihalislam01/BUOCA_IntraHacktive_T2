@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import Chat from "../../Chat/Chat";
 import BookingDetails from "../BookingDetails/BookingDetails";
 import RequestTable from "./RequestTable";
 
@@ -11,6 +12,9 @@ function RoomRequest() {
     const [requests, setRequests] = useState([]);
     const [request, setRequest] = useState({});
     const [isDetails, setDetails] = useState(false);
+
+    const [isThread, setThread] = useState(false);
+    const [referenceId, setReferenceId] = useState(0);
 
     useEffect(()=>{
         axios.get(bookRequestUrl).then(response=>setRequests(response.data.requests)).catch(error=>{
@@ -24,17 +28,26 @@ function RoomRequest() {
 
     const goToDetails = (request) => {
         setRequest(request);
+        setThread(false);
         setDetails(true);
+    }
+
+    const openThread=(id)=>{
+        console.log("HEllo");
+        setReferenceId(id);
+        setDetails(false);
+        setThread(true);
     }
 
     return (
         <>
-            {!isDetails && <>
+            {!isDetails && !isThread && <>
                 <h2>Pending Requests</h2>
                 <hr />
-                <RequestTable requests={requests} goToDetails={goToDetails}/>
+                <RequestTable requests={requests} goToDetails={goToDetails} openThread={openThread} />
             </>}
-            {isDetails && <BookingDetails request={request}/>}
+            {isDetails && !isThread && <BookingDetails request={request}/>}
+            {isThread && !isDetails && <Chat referenceId={referenceId} />}
         </>
     )
 }

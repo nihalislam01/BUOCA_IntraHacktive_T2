@@ -21,25 +21,29 @@ function Menu(props) {
 
     return (
         <ul className={`d-flex align-content-start justify-content-start ${styles.menu}`}>
-            <li className={`mx-2 ${props.currentPage === Page.event && (`selected`)}`}>
+            {!props.isOCA && <li className={`mx-2 ${props.currentPage === Page.event && (`selected`)}`}>
                 <Link to="/event">Events</Link>
-            </li>
+            </li>}
 
             {props.isOCA && <li className={`mx-2 ${props.currentPage === Page.eventRequest && (`selected`)}`}>
                 <Link to="/event-request">Event Request</Link>
             </li>}
 
-            <li className={`mx-2 ${props.currentPage === Page.budget && (`selected`)}`}>
+            {!props.isOCA && <li className={`mx-2 ${props.currentPage === Page.budget && (`selected`)}`}>
                 <Link to="/budget">Budget</Link>
-            </li>
+            </li>}
 
             {props.isOCA && <li className={`mx-2 ${props.currentPage === Page.budgetRequest && (`selected`)}`}>
                 <Link to="/budget-request">Budget Request</Link>
             </li>}
 
-            <li className={`mx-2 ${props.currentPage === Page.availableRoom && (`selected`)}`}>
+            {!props.isOCA && <li className={`mx-2 ${props.currentPage === Page.room && (`selected`)}`}>
+                <Link to="/room">Requested Room</Link>
+            </li>}
+
+            {!props.isOCA && <li className={`mx-2 ${props.currentPage === Page.availableRoom && (`selected`)}`}>
                 <Link to="/available-room">Available Room</Link>
-            </li>
+            </li>}
 
             {props.isOCA && <li className={`mx-2 ${props.currentPage === Page.roomRequest && (`selected`)}`}>
                 <Link to="/room-request">Room Request</Link>

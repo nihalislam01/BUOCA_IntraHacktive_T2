@@ -33,6 +33,7 @@ function Login() {
     });
 
     const [isAuthenticated, setAuthenticated] = useState(false);
+    const [isOCA, setOCA] = useState(false);
 
     const onChangeHandler = e => {
         setFormValues({...formValues, [e.target.name]: e.target.value});
@@ -51,6 +52,7 @@ function Login() {
         }).then((response) => {
             localStorage.setItem("userId", response.data.user._id);
             setAuthenticated(true);
+            setOCA(response.data.user.role==="OCA")
             console.log("we good");
         }).catch((error) => {
             try {
@@ -62,7 +64,11 @@ function Login() {
     }
 
     if (isAuthenticated) {
-        return <Navigate to={"/event"}/>;
+        if (isOCA) {
+            return <Navigate to={"/event-request"}/>;
+        } else {
+            return <Navigate to={"/event"}/>;
+        }
     }
 
     return (

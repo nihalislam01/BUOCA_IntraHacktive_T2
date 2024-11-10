@@ -91,3 +91,10 @@ exports.getBookRequests =catchAsyncErrors(async (req, res, next) => {
     res.status(200).json({success:true, requests});
 
 });
+
+exports.getAllBookRequests =catchAsyncErrors(async (req, res, next) => {
+
+    const requests = await Book.find().populate("rooms.room").populate('bookedBy', 'email').populate('approvedBy', 'email');
+    res.status(200).json({success:true, requests});
+
+});
