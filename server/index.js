@@ -14,6 +14,7 @@ const notification = require("./routes/notificationRoute");
 const room = require("./routes/roomRoute");
 const schedule = require("./routes/scheduleRoute");
 const book = require("./routes/bookRoute");
+const thread = require("./routes/threadRoute");
 
 
 if (process.env.NODE_ENV !== "PRODUCTION") {
@@ -38,6 +39,8 @@ app.use("/api/notification", notification);
 app.use("/api/room", room);
 app.use("/api/schedule", schedule);
 app.use("/api/book", book);
+app.use("/api/thread", thread);
+
 app.use(errorMiddleware);
 
 module.exports = app;

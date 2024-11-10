@@ -1,6 +1,6 @@
 import styles from './Event.module.scss';
 
-function EventTable({events, setIsCreate, setpopup, setdescription}) {
+function EventTable({events, setIsCreate, setpopup, setdescription, openThread}) {
 
     const handleOpenPopup = (description) => {
         setdescription(description);
@@ -28,6 +28,7 @@ function EventTable({events, setIsCreate, setpopup, setdescription}) {
               <th>Requested By</th>
               <th>Approved By</th>
               <th>Status</th>
+              <th>Message</th>
             </tr>
           </thead>
           <tbody>
@@ -40,6 +41,7 @@ function EventTable({events, setIsCreate, setpopup, setdescription}) {
                 {event.aprrovedBy && <td>{event.aprrovedBy.email}</td>}
                 {!event.aprrovedBy && <td>null</td>}
                 <td>{event.status}</td>
+                <td><button onClick={()=>openThread(event._id)}>Thread</button></td>
               </tr>
             ))}
           </tbody>

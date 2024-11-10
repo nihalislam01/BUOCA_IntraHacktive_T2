@@ -1,24 +1,27 @@
 const app = require("./index");
 const connectDatabase = require("./config/database");
-require('dotenv').config();
+const initializeSocket = require("./config/socket");
+require("dotenv").config();
 
 process.on("uncaughtException", (err) => {
-  console.log(`Error: ${err.message}`);
-  console.log(`Shutting down the server due to Uncaught Exception`);
-  process.exit(1);
+    console.log(`Error: ${err.message}`);
+    console.log("Shutting down the server due to Uncaught Exception");
+    process.exit(1);
 });
 
 connectDatabase();
 
 const server = app.listen(process.env.PORT, () => {
-  console.log(`Server is working on http://localhost:${process.env.PORT}`);
+    console.log(`Server is working on http://localhost:${process.env.PORT}`);
 });
 
-process.on("unhandledRejection", (err) => {
-  console.log(`Error: ${err.message}`);
-  console.log(`Shutting down the server due to Unhandled Promise Rejection`);
+initializeSocket(server);
 
-  server.close(() => {
-    process.exit(1);
-  });
+process.on("unhandledRejection", (err) => {
+    console.log(`Error: ${err.message}`);
+    console.log("Shutting down the server due to Unhandled Promise Rejection");
+
+    server.close(() => {
+        process.exit(1);
+    });
 });
