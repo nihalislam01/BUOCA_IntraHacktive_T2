@@ -38,8 +38,12 @@ function Menu(props) {
             </li>}
 
             <li className={`mx-2 ${props.currentPage === Page.room && (`selected`)}`}>
-                <Link to="/room">Check Room</Link>
+                <Link to="/room">Room</Link>
             </li>
+
+            {props.isOCA && <li className={`mx-2 ${props.currentPage === Page.roomRequest && (`selected`)}`}>
+                <Link to="/room-request">Room Request</Link>
+            </li>}
 
             <li className={`mx-2 position-relative`}>
                 <Link to="#" onClick={doSignOut}>Sign Out</Link>
@@ -53,7 +57,8 @@ export const Page = {
     eventRequest: 2,
     budget: 3,
     budgetRequest: 4,
-    room: 5
+    room: 5,
+    roomRequest: 6
 };
 
 export default Menu;

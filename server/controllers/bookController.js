@@ -20,7 +20,7 @@ exports.createBookingRequest = catchAsyncErrors(async (req, res, next) => {
                 if (updatedSchedule[index] === '0') {
                     updatedSchedule[index] = '1';
                 } else {
-                    return next(new ErrorHandler(`Slot ${index} is already booked.`, 400));
+                    return next(new ErrorHandler(`Slot ${index} is already booked or pending.`, 400));
                 }
             });
 
@@ -82,5 +82,12 @@ exports.reviewBooking = catchAsyncErrors(async (req, res, next) => {
         await booking.save();
 
         res.status(200).json({ success: true, message: `Booking ${status.toLowerCase()} successfully`, booking });
+
+});
+
+exports.getBookRequests =catchAsyncErrors(async (req, res, next) => {
+
+    const requests = await Book.find({status: "Pending"}).populate("rooms.room").populate('bookedBy', 'email').populate('approvedBy', 'email');
+    res.status(200).json({success:true, requests});
 
 });

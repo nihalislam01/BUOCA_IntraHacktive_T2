@@ -1,0 +1,95 @@
+@import "../../../common/assets/variables.scss";
+
+.table th {
+    color: #666;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+    padding: 10px;
+}
+
+.table {
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px -5px rgba(0, 0, 0, 0.413);
+}
+
+.tableHead {
+    background-color: rgb(244, 242, 242);
+    border-bottom: 1px solid rgb(216, 216, 216);
+}
+
+.popupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .popup {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  @media only screen {
+      @media (max-width: $sm) {
+          
+      }
+  
+      @media (min-width: $sm) and (max-width: $md) {
+  
+      }
+  
+      @media (max-width: $md) {
+  
+      }
+  
+  
+      @media (min-width: $md) {
+  
+      }
+  
+      @media (min-width: $md) and (max-width: $lg) {
+  
+      }
+  
+      @media (max-width: $lg) {
+  
+      }
+  
+      @media (min-width: $lg) {
+  
+      }
+  
+      @media (min-width: $lg) and (max-width: $xl) {
+  
+      }
+  
+      @media (min-width: $xl) {
+  
+      }
+  
+      @media (min-width: $xxl) {
+  
+      }
+  
+      @media (min-width: $xxl) and (max-width: 1700px) {
+  
+      }
+  
+      @media (min-width: 1700px) {
+  
+      }
+  }  
