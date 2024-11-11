@@ -41,7 +41,7 @@ exports.updateEventStatus = catchAsyncErrors(async (req, res, next) => {
 
 exports.getEvents = catchAsyncErrors(async (req, res, next) => {
 
-  const events = await Event.find().populate('requestedBy', 'email').populate('aprrovedBy', 'email');
+  const events = await Event.find().populate('requestedBy').populate('aprrovedBy');
 
   res.status(200).json({success: true, events: events});
 

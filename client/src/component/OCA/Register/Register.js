@@ -1,19 +1,30 @@
-import styles from "./Login.module.scss";
-import {Link, Navigate} from "react-router-dom";
+import styles from "./Register.module.scss";
 import FormInput from "../../../common/components/FormInput/FormInput";
 import {useState} from "react";
 import CommonHelmet from "../../../common/components/Head/CommonHelmet";
 import axios from "axios";
 import {toast} from "react-hot-toast";
 
-const authUrl = `/api/user/login`;
+const registerUrl = `/api/user/register`;
 
 const userInputs = [
     {
+        id: "nameInput",
+        name: "name",
+        type: "text",
+        placeholder: "Name"
+    },
+    {
         id: "emailInput",
         name: "email",
-        type: "text",
+        type: "email",
         placeholder: "Email",
+    },
+    {
+        id: "studentIdInput",
+        name: "studentId",
+        type: "text",
+        placeholder: "BRACU Student ID",
     },
     {
         id: "passwordInput",
@@ -23,17 +34,16 @@ const userInputs = [
     },
 ];
 
-const pageTitle = "BUOCA - Login Page";
+const pageTitle = "BUOCA - Register Page";
 
-function Login() {
+function Register() {
 
     const [formValues, setFormValues] = useState({
+        name: "",
         email: "",
+        studentId: "",
         password: "",
     });
-
-    const [isAuthenticated, setAuthenticated] = useState(false);
-    const [isOCA, setOCA] = useState(false);
 
     const onChangeHandler = e => {
         setFormValues({...formValues, [e.target.name]: e.target.value});
@@ -47,12 +57,10 @@ function Login() {
             return;
         }
 
-        axios.post(authUrl, {
+        axios.post(registerUrl, {
             ...formValues
         }).then((response) => {
-            localStorage.setItem("userId", response.data.user._id);
-            setAuthenticated(true);
-            setOCA(response.data.user.role==="OCA")
+            toast.success("Club Panel Member Registered");
             console.log("we good");
         }).catch((error) => {
             try {
@@ -63,20 +71,16 @@ function Login() {
         });
     }
 
-    if (isAuthenticated) {
-        return <Navigate to={"/dashboard"}/>;
-    }
-
     return (
         <>
             <CommonHelmet title={pageTitle}/>
 
-            <div className={`d-flex justify-content-center align-items-center min-vh-100`}>
+            <div className={`d-flex justify-content-center align-items-center`}>
                 <div className={`d-flex flex-column justify-content-center ${styles.loginContainer}`}>
 
                     <div style={{marginTop: "45px"}}>
                         <div className={`mb-4`}>
-                            <h4>Log In</h4>
+                            <h4>Register Member</h4>
                         </div>
 
                         <hr />
@@ -87,14 +91,13 @@ function Login() {
                                 <FormInput key={e.id} onChange={onChangeHandler} {...e}/>
                             ))}
 
-                            <button type="submit" className={`btn btn-primary mt-2`} onClick={onFormSubmit}>Sign In</button>
+                            <button type="submit" className={`btn btn-primary mt-2`} onClick={onFormSubmit}>Sign Up</button>
                         </div>
                     </div>
-                    <Link to="/verify/email"> <button className="btn btn-link mt-2">Forgot Password? Click Here</button></Link>
                 </div>
             </div>
         </>
     );
 }
 
-export default Login;
+export default Register;

@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema({
         },
       ]
     },
+    studentId: {
+      type: String,
+    },
     password: {
       type: String,
       select: false,
@@ -40,6 +43,11 @@ const userSchema = new mongoose.Schema({
     isEnable: {
       type: Boolean,
       default: true
+    },
+    verificationToken: {
+      status: {type: Boolean },
+      otp: {type: String },
+      expiration: {type: Date }
     }
   });
 

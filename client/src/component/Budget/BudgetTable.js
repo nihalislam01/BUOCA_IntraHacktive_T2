@@ -25,6 +25,7 @@ function BudgetTable({setForm, budgets, setpopup, setpurpose, openThread}) {
                 <th>Club</th>
                 <th>Amount Requested</th>
                 <th>Requested By</th>
+                <th>Student ID</th>
                 <th>Approved By</th>
                 <th>Status</th>
                 <th>Chat</th>
@@ -36,8 +37,10 @@ function BudgetTable({setForm, budgets, setpopup, setpurpose, openThread}) {
                   <td>{budget.club}</td>
                   <td>{budget.amountRequested}</td>
                   <td>{budget.requestedBy.email}</td>
-                  {budget.approvedBy && <td>{budget.approvedBy.email}</td>}
-                  {!budget.approvedBy && <td>null</td>}
+                  {budget.requestedBy.studentId && <td>{budget.requestedBy.studentId}</td>}
+                {!budget.requestedBy.studentId && <td>No ID</td>}
+                {budget.aprrovedBy && <td>{budget.aprrovedBy.email}</td>}
+                {!budget.aprrovedBy && <td>Not Assigned Yet</td>}
                   <td>{budget.status}</td>
                   <td><button onClick={(e) => { e.stopPropagation(); openThread(budget._id);}}>Thread</button></td>
                 </tr>

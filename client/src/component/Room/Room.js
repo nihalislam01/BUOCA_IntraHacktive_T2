@@ -68,21 +68,62 @@ function Room() {
         });
     }
 
-    const addRoom = (id, date, time, name) => {
-        const timeSlotIndex = times[time]; 
-        setSelectedRooms((prevRooms) => [...prevRooms, {id, date, time, name}]);
-        setAdd((prevRooms) => {
+    // const addRoom = (id, date, time, name) => {
+    //     const timeSlotIndex = times[time]; 
+    //     setSelectedRooms((prevRooms) => [...prevRooms, {id, date, time, name}]);
+    //     setAdd((prevRooms) => {
 
+    //         const existingRoom = prevRooms.find(
+    //             (room) => room.date === date && room.room === id
+    //         );
+    
+    //         if (existingRoom) {
+    //             return prevRooms.map((room) =>
+    //                 room.date === date && room.room === id
+    //                     ? { ...room, timeSlotIndices: [...room.timeSlotIndices, timeSlotIndex] }
+    //                     : room
+    //             );
+    //         } else {
+    //             return [
+    //                 ...prevRooms,
+    //                 { date, room: id, timeSlotIndices: [timeSlotIndex] }
+    //             ];
+    //         }
+    //     });
+    // }
+
+    const addRoom = (id, date, time, name) => {
+        const timeSlotIndex = times[time];
+    
+        setSelectedRooms((prevRooms) => {
+            const roomExists = prevRooms.some(
+                (room) => room.id === id && room.date === date && room.time === time
+            );
+    
+            if (roomExists) {
+                toast.error("Room already selected.");
+                return prevRooms;
+            } else {
+                return [...prevRooms, { id, date, time, name }];
+            }
+        });
+    
+        setAdd((prevRooms) => {
             const existingRoom = prevRooms.find(
                 (room) => room.date === date && room.room === id
             );
     
             if (existingRoom) {
                 return prevRooms.map((room) =>
-                    room.date === date && room.room === id
-                        ? { ...room, timeSlotIndices: [...room.timeSlotIndices, timeSlotIndex] }
-                        : room
-                );
+                room.date === date && room.room === id
+                    ? {
+                        ...room,
+                        timeSlotIndices: room.timeSlotIndices.includes(timeSlotIndex)
+                            ? room.timeSlotIndices 
+                            : [...room.timeSlotIndices, timeSlotIndex] 
+                      }
+                    : room
+            );
             } else {
                 return [
                     ...prevRooms,
@@ -90,7 +131,8 @@ function Room() {
                 ];
             }
         });
-    }
+    };
+    
 
     const openpopup = () => {
         setpopup(true);

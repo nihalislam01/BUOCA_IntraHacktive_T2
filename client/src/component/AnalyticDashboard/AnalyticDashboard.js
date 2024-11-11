@@ -6,7 +6,7 @@ import EventChart from "../../common/components/Chart/EventChart";
 import EventStatusChart from "../../common/components/Chart/EventStatusChart";
 
 const eventUrl = `/api/event/events`;
-const budgetUrl = `/api/budget/budgets`;
+const budgetUrl = `/api/budget/budgets/accepted`;
 
 const AnalyticDashboard = () => {
 

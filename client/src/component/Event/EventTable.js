@@ -19,13 +19,14 @@ function EventTable({events, setIsCreate, setpopup, setdescription, openThread})
       </div>
         <hr />
       <div>
-        <table className={`${styles.table}`}>
+        <table className={`${styles.table} mb-4`}>
           <thead className={`${styles.tableHead}`}>
             <tr>
               <th>Name</th>
               <th>Date</th>
               <th>Club</th>
               <th>Requested By</th>
+              <th>Student ID</th>
               <th>Approved By</th>
               <th>Status</th>
               <th>Message</th>
@@ -38,8 +39,10 @@ function EventTable({events, setIsCreate, setpopup, setdescription, openThread})
                 <td>{event.eventDate.substring(0, 10)}</td>
                 <td>{event.club}</td>
                 <td>{event.requestedBy.email}</td>
+                {event.requestedBy.studentId && <td>{event.requestedBy.studentId}</td>}
+                {!event.requestedBy.studentId && <td>No ID</td>}
                 {event.aprrovedBy && <td>{event.aprrovedBy.email}</td>}
-                {!event.aprrovedBy && <td>null</td>}
+                {!event.aprrovedBy && <td>Not Assigned Yet</td>}
                 <td>{event.status}</td>
                 <td><button onClick={(e) => { e.stopPropagation(); openThread(event._id);}}>Thread</button></td>
               </tr>

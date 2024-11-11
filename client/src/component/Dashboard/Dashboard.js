@@ -11,6 +11,7 @@ import Room from "../Room/Room";
 import RoomRequest from "../OCA/RoomRequest/RoomRequest";
 import RequestedRoom from "../RequestedRoom/RequestedRoom";
 import AnalyticDashboard from "../AnalyticDashboard/AnalyticDashboard";
+import Register from "../OCA/Register/Register";
 
 const checkUrl = `/api/user/check`;
 
@@ -49,6 +50,7 @@ function Dashboard(props) {
                     {props.currentPage === Page.room && <RequestedRoom />}
                     {props.currentPage === Page.availableRoom && <Room />}
                     {props.currentPage === Page.roomRequest && <RoomRequest />}
+                    {props.currentPage === Page.register && <Register />}
                 </div>
             </div>
         </section>

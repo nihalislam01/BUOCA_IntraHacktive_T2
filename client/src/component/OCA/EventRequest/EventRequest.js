@@ -3,6 +3,7 @@ import axios from 'axios';
 import {useEffect, useState} from "react";
 import {toast} from 'react-hot-toast';
 import Chat from '../../Chat/Chat';
+import DetailsPopup from '../../DetailsPopup/DetailsPopup';
 
 const eventUrl = `/api/event/events`;
 
@@ -11,6 +12,9 @@ function EventRequest()  {
 
     const [isThread, setThread] = useState(false);
     const [referenceId, setReferenceId] = useState(0);
+
+    const [ispopup, setpopup] = useState(false);
+    const [description, setdescription] = useState('');
 
     useEffect(()=>{
 
@@ -40,8 +44,15 @@ function EventRequest()  {
 
       const openThread=(id)=>{
         setReferenceId(id);
+        setpopup(false);
         setThread(true);
-      }
+      };
+
+      const handleOpenPopup = (description) => {
+        setdescription(description);
+        setThread(false);
+        setpopup(true);
+      };
 
     return (
     <>
@@ -55,6 +66,7 @@ function EventRequest()  {
               <th>Date</th>
               <th>Club</th>
               <th>Requested By</th>
+              <th>Student ID</th>
               <th>Approved By</th>
               <th>Status</th>
               <th>Chat</th>
@@ -64,13 +76,15 @@ function EventRequest()  {
           </thead>
           <tbody>
             {events.map(event=>(
-              <tr>
+              <tr key={event._id} style={{cursor: "pointer"}} onClick={()=>handleOpenPopup(event.description)}>
                 <td>{event.name}</td>
                 <td>{event.eventDate.substring(0, 10)}</td>
                 <td>{event.club}</td>
                 <td>{event.requestedBy.email}</td>
-                {event.approvedBy && <td>{event.approvedBy.email}</td>}
-                {!event.approvedBy && <td>null</td>}
+                {event.requestedBy.studentId && <td>{event.requestedBy.studentId}</td>}
+                {!event.requestedBy.studentId && <td>No ID</td>}
+                {event.aprrovedBy && <td>{event.aprrovedBy.email}</td>}
+                {!event.aprrovedBy && <td>Not Assigned Yet</td>}
                 <td>{event.status}</td>
                 <td><button onClick={(e) => { e.stopPropagation(); openThread(event._id);}}>Thread</button></td>
                 <td><button onClick={(e) => { e.stopPropagation(); updateStatus(event._id, 'Approved');}} className={`${styles.approve}`}>Approve</button></td>
@@ -80,7 +94,8 @@ function EventRequest()  {
           </tbody>
         </table>
       </div></>}
-      {isThread && <Chat referenceId={referenceId} />}
+      {ispopup && !isThread && <DetailsPopup title={'Event Description'} content={description} setpopup={setpopup}/>}
+      {isThread && !ispopup && <Chat referenceId={referenceId} />}
       </>
     )
 }

@@ -21,6 +21,7 @@ function RequestTable({requests, goToDetails, openThread}) {
             <thead className={`${styles.tableHead}`}>
                 <tr>
                 <th>Booked By</th>
+                <th>Student ID</th>
                 <th>status</th>
                 <th>Chat</th>
                 <th>Approve</th>
@@ -31,10 +32,11 @@ function RequestTable({requests, goToDetails, openThread}) {
                 {requests.map(request=>(
                 <tr key={request._id} style={{cursor: "pointer"}} onClick={()=>goToDetails(request)}>
                     <td>{request.bookedBy.email}</td>
+                    <td>{request.bookedBy.studentId}</td>
                     <td>{request.status}</td>
                     <td><button onClick={(e) => { e.stopPropagation(); openThread(request._id);}}>Thread</button></td>
-                    <td><button onClick={() => updateStatus(request._id, 'Approved')} className={`${styles.approve}`}>Approve</button></td>
-                    <td><button style={{color: "#B10C14"}} onClick={() => updateStatus(request._id, 'Denied')} className={`${styles.reject}`}>Deny</button></td>
+                    <td><button onClick={(e) => { e.stopPropagation(); updateStatus(request._id, 'Approved')}} className={`${styles.approve}`}>Approve</button></td>
+                    <td><button style={{color: "#B10C14"}} onClick={(e) => { e.stopPropagation(); updateStatus(request._id, 'Denied')}} className={`${styles.reject}`}>Deny</button></td>
                 </tr>
                 ))}
             </tbody>

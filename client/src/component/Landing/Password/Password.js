@@ -1,39 +1,38 @@
-import styles from "./Login.module.scss";
-import {Link, Navigate} from "react-router-dom";
+import styles from "./Password.module.scss";
+import {Link, useNavigate} from "react-router-dom";
 import FormInput from "../../../common/components/FormInput/FormInput";
 import {useState} from "react";
 import CommonHelmet from "../../../common/components/Head/CommonHelmet";
 import axios from "axios";
 import {toast} from "react-hot-toast";
 
-const authUrl = `/api/user/login`;
+const passwordUrl = `/api/user/update/password`;
 
-const userInputs = [
+const passwordInputs = [
     {
         id: "emailInput",
         name: "email",
-        type: "text",
-        placeholder: "Email",
+        type: "email",
+        placeholder: "Please enter the verified email",
     },
     {
         id: "passwordInput",
-        name: "password",
+        name: "newPassword",
         type: "password",
-        placeholder: "Password"
+        placeholder: "Please enter the new password",
     },
 ];
 
-const pageTitle = "BUOCA - Login Page";
+const pageTitle = "BUOCA - Update Password Page";
 
-function Login() {
+function Password() {
 
     const [formValues, setFormValues] = useState({
         email: "",
-        password: "",
+        newPassword: ""
     });
 
-    const [isAuthenticated, setAuthenticated] = useState(false);
-    const [isOCA, setOCA] = useState(false);
+    const navigate = useNavigate();
 
     const onChangeHandler = e => {
         setFormValues({...formValues, [e.target.name]: e.target.value});
@@ -47,24 +46,24 @@ function Login() {
             return;
         }
 
-        axios.post(authUrl, {
+        axios.patch(passwordUrl, {
             ...formValues
         }).then((response) => {
-            localStorage.setItem("userId", response.data.user._id);
-            setAuthenticated(true);
-            setOCA(response.data.user.role==="OCA")
-            console.log("we good");
+            if (response.data.success) {
+                toast.success("Password Update Successful")
+                navigate('/');
+            } else {
+                toast.error("Something went wrong");
+                navigate('/');
+            }
         }).catch((error) => {
             try {
                 toast.error(error.response.data.message);
             } catch {
                 toast.error("Something went wrong");
             }
+            console.log(error);
         });
-    }
-
-    if (isAuthenticated) {
-        return <Navigate to={"/dashboard"}/>;
     }
 
     return (
@@ -76,25 +75,25 @@ function Login() {
 
                     <div style={{marginTop: "45px"}}>
                         <div className={`mb-4`}>
-                            <h4>Log In</h4>
+                            <h4>Enter New Password</h4>
                         </div>
 
                         <hr />
 
                         <div className={`d-flex flex-column`}>
 
-                            {userInputs.map(e => (
+                            {passwordInputs.map(e => (
                                 <FormInput key={e.id} onChange={onChangeHandler} {...e}/>
                             ))}
 
-                            <button type="submit" className={`btn btn-primary mt-2`} onClick={onFormSubmit}>Sign In</button>
+                            <button type="submit" className={`btn btn-primary mt-2`} onClick={onFormSubmit}>Update Password</button>
                         </div>
                     </div>
-                    <Link to="/verify/email"> <button className="btn btn-link mt-2">Forgot Password? Click Here</button></Link>
+                    <Link to="/"><button className="btn btn-link mt-2">Login?</button></Link>
                 </div>
             </div>
         </>
     );
 }
 
-export default Login;
+export default Password;

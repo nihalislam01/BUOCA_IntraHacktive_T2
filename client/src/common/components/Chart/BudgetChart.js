@@ -16,7 +16,7 @@ const getAmountByClub = (budgets) => {
     labels: Object.keys(amountData),
     datasets: [
       {
-        label: 'Amount Requested',
+        label: 'Accepted Budget',
         data: Object.values(amountData),
         backgroundColor: '#36A2EB',
       },
@@ -33,7 +33,7 @@ const getAmountByClub = (budgets) => {
     plugins: {
       title: {
         display: true,
-        text: 'Club wise budget requests',
+        text: 'Club wise budget',
         font: {
           size: 18,
         },

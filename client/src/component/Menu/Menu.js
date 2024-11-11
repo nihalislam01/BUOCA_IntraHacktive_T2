@@ -53,6 +53,10 @@ function Menu(props) {
                 <Link to="/room-request">Room Request</Link>
             </li>}
 
+            {props.isOCA && <li className={`mx-2 ${props.currentPage === Page.register && (`selected`)}`}>
+                <Link to="/register">Register Member</Link>
+            </li>}
+
             <li className={`mx-2 position-relative`}>
                 <Link to="#" onClick={doSignOut}>Sign Out</Link>
             </li>
@@ -68,7 +72,8 @@ export const Page = {
     room: 5,
     availableRoom: 6,
     roomRequest: 7,
-    dashboard: 8
+    dashboard: 8,
+    register: 9
 };
 
 export default Menu;
