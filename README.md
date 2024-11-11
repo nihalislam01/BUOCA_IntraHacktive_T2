@@ -97,3 +97,6 @@ Due to outdated, manual processes, the Office of Co-Curricular Activities (OCA) 
 - We can create an open API such as a room booking system so that not only OCA but also other Brac university authorities can use the service to check room status and book rooms for other purposes as well.
 
 ---
+
+[Slide Presentation](https://docs.google.com/presentation/d/1ZHZr1oCPmowUhcEevM_hCJeljkJ7NzVm9SFs7UoCRyA/edit?usp=sharing)
+
